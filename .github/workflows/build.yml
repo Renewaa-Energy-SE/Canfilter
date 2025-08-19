@@ -1,0 +1,31 @@
+name: Build and Release Firmware
+
+on:
+  push:
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Install ARM GCC toolchain
+        uses: fiam/arm-none-eabi-gcc@v1
+        with:
+          release: '9-2019-q4'
+
+      - name: Build firmware
+        run: |
+          cd SW4STM/Debug
+          make
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            SW4STM/Debug/canfilter.hex
+            SW4STM/Debug/canfilter.elf
+          tag_name: build-${{ github.run_number }}

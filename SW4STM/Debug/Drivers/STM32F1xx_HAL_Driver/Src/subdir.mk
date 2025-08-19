@@ -54,7 +54,7 @@ Drivers/STM32F1xx_HAL_Driver/Src/%.o: ../Drivers/STM32F1xx_HAL_Driver/Src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU GCC Compiler'
 	@echo $(PWD)
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -DUSE_HAL_DRIVER -DSTM32F105xC -I"/home/eko/Schreibtisch/stlink/canfilter/Inc" -I"/home/eko/Schreibtisch/stlink/canfilter/Drivers/STM32F1xx_HAL_Driver/Inc" -I"/home/eko/Schreibtisch/stlink/canfilter/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy" -I"/home/eko/Schreibtisch/stlink/canfilter/Drivers/CMSIS/Device/ST/STM32F1xx/Include" -I"/home/eko/Schreibtisch/stlink/canfilter/Drivers/CMSIS/Include"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -DUSE_HAL_DRIVER -DSTM32F105xC -I"../Inc" -I"../Drivers/STM32F1xx_HAL_Driver/Inc" -I"../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy" -I"../Drivers/CMSIS/Device/ST/STM32F1xx/Include" -I"../Drivers/CMSIS/Include"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
