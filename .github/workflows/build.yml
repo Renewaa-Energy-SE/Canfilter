@@ -1,0 +1,56 @@
+name: Build and Release Firmware
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Install ARM GCC toolchain
+        uses: fiam/arm-none-eabi-gcc@v1
+        with:
+          release: '9-2019-q4-major'
+
+      - name: Build firmware
+        run: |
+          cd SW4STM/Debug
+          make
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: SW4STM/Debug/canfilter.hex
+          asset_name: canfilter.hex
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset
+        id: upload-release-asset-elf
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: SW4STM/Debug/canfilter.elf
+          asset_name: canfilter.elf
+          asset_content_type: application/octet-stream
