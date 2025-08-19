@@ -22,35 +22,10 @@ jobs:
           cd SW4STM/Debug
           make
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: SW4STM/Debug/canfilter.hex
-          asset_name: canfilter.hex
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset
-        id: upload-release-asset-elf
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: SW4STM/Debug/canfilter.elf
-          asset_name: canfilter.elf
-          asset_content_type: application/octet-stream
+          files: |
+            SW4STM/Debug/canfilter.hex
+            SW4STM/Debug/canfilter.elf
+          tag_name: build-${{ github.run_number }}
