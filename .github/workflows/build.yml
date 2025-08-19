@@ -2,8 +2,6 @@ name: Build and Release Firmware
 
 on:
   push:
-    branches:
-      - master
 
 jobs:
   build-and-release:
